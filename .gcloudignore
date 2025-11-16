@@ -1,0 +1,16 @@
+# .gcloudignore
+# Ignore local development files
+
+node_modules/
+.env
+.env.local
+*.log
+dist/
+build/
+.DS_Store
+.git/
+.gitignore
+README.md
+docker-compose.yml
+frontend/node_modules/
+backend/node_modules/

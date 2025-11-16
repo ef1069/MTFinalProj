@@ -1,0 +1,32 @@
+apiVersion: run.cnrm.cloud.google.com/v1beta1
+kind: RunService
+metadata:
+  name: mt-bookclubs-backend
+spec:
+  location: us-central1
+  template:
+    spec:
+      serviceAccountName: mt-bookclubs-backend-sa
+      containers:
+      - image: gcr.io/PROJECT_ID/mt-bookclubs-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongo-uri
+              key: uri
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt-secret
+              key: secret
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      timeoutSeconds: 300
+  traffic:
+  - percent: 100
+    latestRevision: true
