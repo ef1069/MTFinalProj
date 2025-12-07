@@ -1,32 +1,13 @@
-apiVersion: run.cnrm.cloud.google.com/v1beta1
-kind: RunService
-metadata:
-  name: mt-bookclubs-backend
-spec:
-  location: us-central1
-  template:
-    spec:
-      serviceAccountName: mt-bookclubs-backend-sa
-      containers:
-      - image: gcr.io/PROJECT_ID/mt-bookclubs-backend:latest
-        ports:
-        - containerPort: 5000
-        env:
-        - name: MONGO_URI
-          valueFrom:
-            secretKeyRef:
-              name: mongo-uri
-              key: uri
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: jwt-secret
-              key: secret
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-      timeoutSeconds: 300
-  traffic:
-  - percent: 100
+# NOTE: Cloud Run is typically deployed via CLI (gcloud run deploy) rather than kubectl.
+# This YAML is for reference only—use gcp/deploy-cloud-shell.sh or gcloud CLI commands.
+#
+# To deploy backend:
+# gcloud run deploy mt-bookclubs-backend \
+#   --image gcr.io/$PROJECT_ID/mt-bookclubs-backend:latest \
+#   --platform managed \
+#   --region us-central1 \
+#   --no-allow-unauthenticated \
+#   --memory 512Mi \
+#   --timeout 300 \
+#   --set-env-vars MONGO_URI="mongodb+srv://...",JWT_SECRET="..."
     latestRevision: true

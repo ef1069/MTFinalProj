@@ -1,24 +1,12 @@
-apiVersion: run.cnrm.cloud.google.com/v1beta1
-kind: RunService
-metadata:
-  name: mt-bookclubs-frontend
-spec:
-  location: us-central1
-  template:
-    spec:
-      serviceAccountName: mt-bookclubs-frontend-sa
-      containers:
-      - image: gcr.io/PROJECT_ID/mt-bookclubs-frontend:latest
-        ports:
-        - containerPort: 80
-        env:
-        - name: VITE_API_URL
-          value: "https://mt-bookclubs-backend-XXXXX.a.run.app"
-        resources:
-          limits:
-            memory: "256Mi"
-            cpu: "250m"
-      timeoutSeconds: 300
-  traffic:
-  - percent: 100
-    latestRevision: true
+# NOTE: Cloud Run is typically deployed via CLI (gcloud run deploy) rather than kubectl.
+# This YAML is for reference only—use gcp/deploy-cloud-shell.sh or gcloud CLI commands.
+#
+# To deploy frontend:
+# gcloud run deploy mt-bookclubs-frontend \
+#   --image gcr.io/$PROJECT_ID/mt-bookclubs-frontend:latest \
+#   --platform managed \
+#   --region us-central1 \
+#   --allow-unauthenticated \
+#   --memory 256Mi \
+#   --timeout 300 \
+#   --set-env-vars VITE_API_URL="$BACKEND_URL"
